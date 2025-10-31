@@ -1,58 +1,52 @@
 #include "BookUnit.h"
-#include <iostream>
-#include <string>
-#include <vector>
+#include "AllModuls.h"
+#include "Methods.h"
 
 using namespace std;
 
+
+int MAX_UNITS = 50;
+int PERSON_INDEX = 0;
+
+int menu(int& opt) {
+    auto bookUnits = new list<BookUnit>[MAX_UNITS];
+    while (true) {
+        cout << "Введите номер нужной опции: " << endl;
+        cout << "1: Просмотреть телефонный справочник" << endl;
+        cout << "2: Создать контакт" << endl;
+        cout << "3: Редактировать контакт" << endl;
+        cout << "4: Удалить аккаунт" << endl;
+        cout << "5: Выход из программы" << endl;
+        cout << "Номер опции: ";
+        cin >> opt;
+        switch (opt) {
+            case 1:
+                printBookUnits(*bookUnits);
+                break;
+            case 2:
+                createNewBook(*bookUnits);
+                break;
+            case 3:
+                refactorBook(*bookUnits);
+                break;
+            case 4:
+                deleteBook(*bookUnits);
+                break;
+            case 5:
+                cout << "Выход из системы" << endl;
+                delete[] bookUnits;
+                return 0;
+            default:
+                cout << "Нет такой опции!";
+        }
+    }
+}
+
+
 int main() {
-    cout << "Hello World!" << endl;
-
-    auto date = new BirthDate(1, 1, 2000);
-    cout << 12222222;
-    date->printBirthDate();
-    cout << 22222221 << endl;
-/*
-
-    string str= "   qSTR w   eSTR  ";
-    deleteExtraSpace(str);
-    cout << str << endl;
-
-
-    string n = "   Q w e ";
-    string s = "   W e q ";
-    string p = "   E q w ";
-    auto fullname = createFullName(n,s,p);
-    cout << fullname->name_ << ", " << fullname->surname_ << ", " << fullname->patronymic_ << endl;
-
-    string country = "Rus";
-    string region = "SPb";
-    string city = "SPb";
-    string street = "Stoykost";
-    string house = "26";
-    string corpus = "3";
-    string flat = "346";
-    auto address = new Address(country, region, city, street, house, corpus, flat);
-
-    string email = "sobaka@bk.ru";
-
-    auto phoneNumber = new vector<string>;
-    phoneNumber->emplace_back("89643222467");
-
-    auto firstBook = new BookUnit(*fullname, *address, *date, email, *phoneNumber);
-
-    cout << "PhoneNumber: " << firstBook->phoneNumber.back() << endl;
-
-    delete firstBook;
-    delete fullname;
-    delete address;
-    delete date;
-    delete phoneNumber;*/
-
+    int opt = 0;
+    menu(opt);
     return 0;
 
 }
 
-void menu(int& opt) {
-    // TODO: make menu
-}

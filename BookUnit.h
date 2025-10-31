@@ -1,7 +1,7 @@
 #ifndef CURSEWORK_OOP_SPBPU_BOOKUNIT_H
 #define CURSEWORK_OOP_SPBPU_BOOKUNIT_H
-#include <string>
-#include <vector>
+
+#include "AllModuls.h"
 
 using namespace std;
 
@@ -9,28 +9,7 @@ using namespace std;
 //
 // Classes
 //
-class FullName {
-private:
-public:
-    string name_;
-    string surname_;
-    string patronymic_;
-public:
-    FullName(string& name, string& surname, string& patronymic);
-};
-
-class BirthDate {
-private:
-public:
-    int day_;
-    int month_;
-    int year_;
-    bool checkBirthDate(const int& day, const int& month, const int& year) const;
-public:
-    BirthDate(const int& day, const int& month, const int& year);
-    void printBirthDate() const;
-};
-
+/*
 class Address {
 private:
 public:
@@ -45,33 +24,24 @@ public:
 public:
     Address(const string& country, const string& region, const string& city, const string& street,
         const string& house, const string& corpus, const string& flat);
-};
+};*/
 
 class BookUnit {
 private:
-public:
-    FullName fullName;
-    Address address;
-    const BirthDate birthDate;
+    vector<string> fullName = vector<string>(3);
+    vector<string> address = vector<string>(7);
+    vector<int> birthDate = vector<int>( 3);
     string email;
-    vector<string> phoneNumber;
+    list<string> phoneNumber;
 public:
-    BookUnit(FullName& fullName, Address& address, BirthDate birthDate, string email, vector<string>& phoneNumber);
-    void addPhoneNumber(const string& phoneNumber);
-    void setFullName(FullName &full);
-    FullName& getFullName();
+    void addFullName(const vector<string>& newFullName);
+    void addAddress(const vector<string>& newAddress);
+    void addBirthDate(const vector<int>& newBirthDate);
+    void addEmail(const string& newEmail);
+    void addPhoneNumber(const string& newPhoneNumber);
 
-
+    void printBook() const;
+    void createAndRefactorBook(const BookUnit& book);
 };
-
-//
-// Methods
-//
-void deleteExtraSpace(string& element);
-bool checkFullName(const string& element);
-FullName* createFullName(string& name, string& surname, string& patronymic);
-
-bool checkEmail(const string& email);
-bool checkPhoneNumber(const string& phoneNumber);
 
 #endif //CURSEWORK_OOP_SPBPU_BOOKUNIT_H

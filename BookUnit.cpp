@@ -1,10 +1,5 @@
 #include "BookUnit.h"
-#include <string>
-#include <vector>
-#include <map>
-#include <cctype>
-#include <algorithm>
-#include <iostream>
+#include "AllModuls.h"
 
 using namespace std;
 //
@@ -28,87 +23,55 @@ map<int, string> MONTH = {
 //
 // Classes
 //
-FullName::FullName(string &name, string &surname, string &patronymic) : name_(name), surname_(surname),
-patronymic_(patronymic) {}
-
-bool BirthDate::checkBirthDate(const int &day, const int &month, const int &year) const {
-    // TODO: make this part
-    return true;
+void BookUnit::addFullName(const vector<string> &newFullName) {
+    fullName = newFullName;
 }
 
-BirthDate::BirthDate(const int &day, const int &month, const int &year) {
-    if (checkBirthDate(day, month, year)) {
-        day_ = day;
-        month_ = month;
-        year_ = year;
-    }else {
-        cout << "Birth date is invalid" << endl;
+void BookUnit::addAddress(const vector<string> &newAddress) {
+    address = newAddress;
+}
+
+void BookUnit::addBirthDate(const vector<int> &newBirthDate) {
+    birthDate = newBirthDate;
+}
+
+void BookUnit::addEmail(const string &newEmail) {
+    email = newEmail;
+}
+
+void BookUnit::addPhoneNumber(const string& newPhoneNumber) {
+    phoneNumber.push_back(newPhoneNumber);
+}
+
+void BookUnit::printBook() const {
+    for (int i = 0; i < 3; ++i) {
+        cout << fullName[0] << " ";
     }
-}
+    cout << "// ";
 
-void BirthDate::printBirthDate() const{
-    printf("%d %s %d (%d.%d.%d)", day_, MONTH[month_].c_str(), year_, day_, month_, year_);
-}
-
-Address::Address(const string& country, const string& region, const string& city, const string& street,
-    const string& house, const string& corpus, const string& flat) : country(country), region(region),
-city(city), street(street), house(house), corpus(corpus), flat(flat) {}
-
-
-BookUnit::BookUnit(FullName& fullName, Address& address, BirthDate birthDate, string email, vector<string>& phoneNumber)
-: fullName(fullName), address(address), birthDate(birthDate), email(email), phoneNumber(phoneNumber) {}
-
-void BookUnit::addPhoneNumber(const string& phonenumber) {
-    phoneNumber.push_back(phonenumber);
-}
-
-
-//
-// Methods
-//
-void deleteExtraSpace(string& element) {
-    element.erase(element.begin(), find_if(element.begin(), element.end(), [](char c) {
-        return c != ' ';
-    }));
-    element.erase(find_if(element.rbegin(), element.rend(), [](char c) {
-        return c != ' ';
-    }).base(), element.end());
-}
-bool checkFullName(const string& element) {
-    bool flag = true;
-    flag *= isalpha(element[0]) && element.back() != '-';
-
-    if (flag) {return true;}
-    return false;
-}
-FullName* createFullName(string& name, string& surname, string& patronymic) {
-    deleteExtraSpace(name);
-    deleteExtraSpace(surname);
-    deleteExtraSpace(patronymic);
-    if (checkFullName(name)) {
-        if (checkFullName(surname)) {
-            if (checkFullName(patronymic)) {
-                auto *fullName = new FullName(name, surname, patronymic);
-                return fullName;
-            }else {
-                cout << "Incorrect patronymic" << endl;
-            }
-        }else {
-            cout << "Incorrect surname" << endl;
-        }
-    }else {
-        cout << "Incorrect name" << endl;
+    for (int i = 0; i < 7; ++i) {
+        cout << address[i] << " ";
     }
-    return nullptr;
+    cout << "// ";
+
+    for (int i = 0; i < 3; ++i) {
+        cout << birthDate[0] << " ";
+    }
+    cout << "// ";
+
+    cout << email << " // ";
+
+    // Сделал for-цикл, потому что CLion выдавал Clang-Tidy: "Use range-based for loop"
+    for (const auto& iter : phoneNumber) {
+        cout << iter << " ";
+    }
+    cout << "// ";
 }
 
-
-bool checkEmail(const string& email) {
-    // TODO: make this part
-    return true;
+void BookUnit::createAndRefactorBook(const BookUnit& book) {
+    fullName = book.fullName;
+    address = book.address;
+    birthDate = book.birthDate;
+    email = book.email;
+    phoneNumber = book.phoneNumber;
 }
-bool checkPhoneNumber(const string& phoneNumber) {
-    // TODO: make this part
-    return true;
-}
-
