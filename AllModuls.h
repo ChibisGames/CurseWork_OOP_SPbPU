@@ -9,5 +9,6 @@
 #include <cctype>
 #include <ctime>
 #include <algorithm>
+#include <regex>
 
 #endif //CURSEWORK_OOP_SPBPU_ALLMODULS_H
