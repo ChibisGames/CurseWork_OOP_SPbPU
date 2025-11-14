@@ -17,12 +17,16 @@ void refactorBook(list<BookUnit>& units);
 
 void deleteBook(list<BookUnit>& units);
 
-vector<BookUnit>& readFile();
+void sortData(list<BookUnit>& units);
 
-void writeFile(list<BookUnit>& units);
+string toLower(const string& str);
 
-void sortData(list<BookUnit>& units, int sortField);
+bool isNumber(const string& str);
 
-void findData(list<BookUnit>& units, int findField);
+void findData(list<BookUnit>& units);
+
+void readFile(list<BookUnit>& units);
+
+void writeFile(const list<BookUnit>& units);
 
 #endif //CURSEWORK_OOP_SPBPU_CHECKMETHODS_H

@@ -14,22 +14,22 @@ using namespace std;
 
 int MAX_UNITS = 50;
 int PERSON_INDEX = 0;
-enum SortField {
-    SORT_BY_FN1 = 1,
-    SORT_BY_FN2 = 2,
-    SORT_BY_FN3 = 3,
-    SORT_BY_ADDRESS1 = 4,
-    SORT_BY_ADDRESS2 = 5,
-    SORT_BY_ADDRESS3 = 6,
-    SORT_BY_ADDRESS4 = 7,
-    SORT_BY_ADDRESS5 = 8,
-    SORT_BY_ADDRESS6 = 9,
-    SORT_BY_ADDRESS7 = 10,
-    SORT_BY_BD1 = 11,
-    SORT_BY_BD2 = 12,
-    SORT_BY_BD3 = 13,
-    SORT_BY_E = 14,
-    SORT_BY_PN = 15
+enum Field {
+    FN1 = 1,
+    FN2 = 2,
+    FN3 = 3,
+    ADDRESS1 = 4,
+    ADDRESS2 = 5,
+    ADDRESS3 = 6,
+    ADDRESS4 = 7,
+    ADDRESS5 = 8,
+    ADDRESS6 = 9,
+    ADDRESS7 = 10,
+    BD1 = 11,
+    BD2 = 12,
+    BD3 = 13,
+    E = 14,
+    PN = 15
 };
 
 int mainManu(int& opt) {
@@ -40,7 +40,11 @@ int mainManu(int& opt) {
         cout << "2: Создать контакт" << endl;
         cout << "3: Редактировать контакт" << endl;
         cout << "4: Удалить аккаунт" << endl;
-        cout << "5: Выход из программы" << endl;
+        cout << "5: Сортировать телефонный справочник" << endl;
+        cout << "6: Найти телефонный справочник" << endl;
+        cout << "7: Чтение из файла телефонного справочника" << endl;
+        cout << "8: Записать телефонный справочник" << endl;
+        cout << "9: Выход из программы" << endl;
         cout << "Номер опции: ";
         cin >> opt;
         switch (opt) {
@@ -57,11 +61,24 @@ int mainManu(int& opt) {
                 deleteBook(*bookUnits);
                 break;
             case 5:
+                sortData(*bookUnits);
+                break;
+            case 6:
+                findData(*bookUnits);
+                break;
+            case 7:
+                readFile(*bookUnits);
+                break;
+            case 8:
+                writeFile(*bookUnits);
+                break;
+
+            case 9:
                 cout << "Выход из системы" << endl;
                 delete bookUnits;
                 return 0;
             default:
-                cout << "Нет такой опции!";
+                cout << "Нет такой опции!" << endl;
         }
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -161,6 +178,7 @@ void createNewBook(list<BookUnit>& units) {
         correctData = checkPhoneNumber(phoneNumber);
         if (!correctData){cout << "Некорректность вводимого телефона! Повторите ввод!" << endl;}
     }
+    newBook.toFormat(phoneNumber);
     newBook.addPhoneNumber(phoneNumber);
 
     auto iter = units.begin();
@@ -219,7 +237,6 @@ void refactorBook(list<BookUnit>& units) {
                 break;
         }
     }
-    // TODO: make this part
 }
 
 
@@ -246,100 +263,426 @@ void deleteBook(list<BookUnit>& units) {
     }
 }
 
-vector<BookUnit>& readFile() {}
+void sortData(list<BookUnit>& units) {
+    int opt = 0;
+    while (true) {
+        cout << "Выберите опции для поиска:" << endl;
+        cout << "1: Сортировать по имени" << endl;
+        cout << "2: Сортировать по фамилии" << endl;
+        cout << "3: Сортировать по отчеству" << endl;
+        cout << "4: Сортировать по стране" << endl;
+        cout << "5: Сортировать по региону" << endl;
+        cout << "6: Сортировать по городу" << endl;
+        cout << "7: Сортировать по улицу" << endl;
+        cout << "8: Сортировать по дом" << endl;
+        cout << "9: Сортировать по корпус" << endl;
+        cout << "10: Сортировать по квартира" << endl;
+        cout << "11: Сортировать по дню рождения" << endl;
+        cout << "12: Сортировать по месяцу рождения" << endl;
+        cout << "13: Сортировать по году рождения" << endl;
+        cout << "14: Сортировать по email" << endl;
+        cout << "15: Сортировать по телефону" << endl;
+        cout << "16: Выйти из опции" << endl;
+        cout << "Номер опции: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> opt;
+        if (1 <= opt && opt <= 16) {
+            break;
+        }
+    }
 
-void writeFile(list<BookUnit>& units) {}
-
-// придётся разбить на сортировки по каждому виду поля!
-void sortData(list<BookUnit>& units, int sortField) {
-    switch (sortField) {
-        case SORT_BY_FN1:
+    switch (opt) {
+        case FN1:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getFullName()[0] < b.getFullName()[0];
+                return (*a.getFullName())[0] < (*b.getFullName())[0];
             });
             break;
-        case SORT_BY_FN2:
+        case FN2:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getFullName()[1] < b.getFullName()[1];
+                return (*a.getFullName())[1] < (*b.getFullName())[1];
             });
             break;
-        case SORT_BY_FN3:
+        case FN3:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getFullName()[2] < b.getFullName()[2];
-            });
-            break;
-
-        case SORT_BY_ADDRESS1:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[0] < b.getAddress()[0];
-            });
-            break;
-        case SORT_BY_ADDRESS2:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[1] < b.getAddress()[1];
-            });
-            break;
-        case SORT_BY_ADDRESS3:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[2] < b.getAddress()[2];
-            });
-            break;
-        case SORT_BY_ADDRESS4:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[3] < b.getAddress()[3];
-            });
-            break;
-        case SORT_BY_ADDRESS5:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[4] < b.getAddress()[4];
-            });
-            break;
-        case SORT_BY_ADDRESS6:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[5] < b.getAddress()[5];
-            });
-            break;
-        case SORT_BY_ADDRESS7:
-            units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getAddress()[6] < b.getAddress()[6];
+                return (*a.getFullName())[2] < (*b.getFullName())[2];
             });
             break;
 
-        case SORT_BY_BD1:
+        case ADDRESS1:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getBirthDate()[0] < b.getBirthDate()[0];
+                return (*a.getAddress())[0] < (*b.getAddress())[0];
             });
             break;
-        case SORT_BY_BD2:
+        case ADDRESS2:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getBirthDate()[1] < b.getBirthDate()[1];
+                return (*a.getAddress())[1] < (*b.getAddress())[1];
             });
             break;
-        case SORT_BY_BD3:
+        case ADDRESS3:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getBirthDate()[2] < b.getBirthDate()[2];
+                return (*a.getAddress())[2] < (*b.getAddress())[2];
+            });
+            break;
+        case ADDRESS4:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getAddress())[3] < (*b.getAddress())[3];
+            });
+            break;
+        case ADDRESS5:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getAddress())[4] < (*b.getAddress())[4];
+            });
+            break;
+        case ADDRESS6:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getAddress())[5] < (*b.getAddress())[5];
+            });
+            break;
+        case ADDRESS7:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getAddress())[6] < (*b.getAddress())[6];
             });
             break;
 
-        case SORT_BY_E:
+        case BD1:
             units.sort([](BookUnit& a, BookUnit& b) {
-                return a.getEmail() < b.getEmail();
+                return (*a.getBirthDate())[0] < (*b.getBirthDate())[0];
+            });
+            break;
+        case BD2:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getBirthDate())[1] < (*b.getBirthDate())[1];
+            });
+            break;
+        case BD3:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getBirthDate())[2] < (*b.getBirthDate())[2];
             });
             break;
 
-        case SORT_BY_PN:
+        case E:
+            units.sort([](BookUnit& a, BookUnit& b) {
+                return (*a.getEmail()) < (*b.getEmail());
+            });
+            break;
+
+        case PN:
             units.sort([](BookUnit& a, BookUnit& b) {
                 a.sortPhoneNumbers();
                 b.sortPhoneNumbers();
-                return a.getPhoneNumber()[0] < b.getPhoneNumber()[0];
+                const auto ai = a.getPhoneNumber()->begin();
+                const auto bi = b.getPhoneNumber()->begin();
+                return (*ai) < (*bi);
             });
             break;
+        case 16:
+            return;
         default:
             cout << "Нет такого поля!" << endl;
             break;
     }
 }
 
-void findData(list<BookUnit>& units, int findField) {
-    // TODO: make this part
+string toLower(const string& str) {
+    string result = str;
+    transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
+
+bool isNumber(const string& str) {
+    for (auto character : str) {
+        if (!isdigit(character)) {return false;}
+    }
+    return true;
+}
+
+void findData(list<BookUnit>& units) {
+    int opt = 0;
+    string field;
+    auto optData = vector<bool>(15);
+    auto result = units;
+    auto middleResult = list<BookUnit>(units.size());
+    while (true) {
+        cout << "Выберите опции для поиска:" << endl;
+        if (!optData[0]) {cout << "1: Поиск по имени" << endl;}
+        if (!optData[1]) {cout << "2: Поиск по фамилии" << endl;}
+        if (!optData[2]) {cout << "3: Поиск по отчеству" << endl;}
+        if (!optData[3]) {cout << "4: Поиск по стране" << endl;}
+        if (!optData[4]) {cout << "5: Поиск по региону" << endl;}
+        if (!optData[5]) {cout << "6: Поиск по городу" << endl;}
+        if (!optData[6]) {cout << "7: Поиск по улицу" << endl;}
+        if (!optData[7]) {cout << "8: Поиск по дом" << endl;}
+        if (!optData[8]) {cout << "9: Поиск по корпус" << endl;}
+        if (!optData[9]) {cout << "10: Поиск по квартира" << endl;}
+        if (!optData[10]) {cout << "11: Поиск по дню рождения" << endl;}
+        if (!optData[11]) {cout << "12: Поиск по месяцу рождения" << endl;}
+        if (!optData[12]) {cout << "13: Поиск по году рождения" << endl;}
+        if (!optData[13]) {cout << "14: Поиск по email" << endl;}
+        if (!optData[14]) {cout << "15: Поиск по телефону" << endl;}
+        cout << "16: Просмотреть искомые списки" << endl;
+        cout << "17: Очистить поисковой фильтр" << endl;
+        cout << "18: Выйти из опции" << endl;
+        cout << "Номер опции: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> opt;
+        if (opt < 1 || opt > 18) {cout << "Нет такой опции!" << endl; continue;}
+        if (1 <= opt && opt <= 10 ||  14 <= opt && opt <= 15) {
+            cout << "Введите искомое значение: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> field;
+            field = toLower(field);
+        }
+        if (11 <= opt && opt <= 13) {
+            while (true) {
+                cout << "Введите искомое значение: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin >> field;
+                if (isNumber(field)) {
+                    break;
+                }else {
+                    cout << "Это должно быть число!" << endl;
+                }
+            }
+        }
+
+        switch (opt) {
+            case FN1:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getFullName())[0]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[0] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case FN2:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getFullName())[1]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[1] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case FN3:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getFullName())[2]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[2] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+
+            case ADDRESS1:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[0]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[3] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS2:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[1]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[4] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS3:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[2]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[5] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS4:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[3]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[6] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS5:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[4]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[7] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS6:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[5]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[8] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case ADDRESS7:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getAddress())[6]) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[9] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+
+            case BD1:
+                for (auto& unit : result) {
+                    if ((*unit.getBirthDate())[0] == stoi(field)) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[10] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case BD2:
+                for (auto& unit : result) {
+                    if ((*unit.getBirthDate())[1] == stoi(field)) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[11] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+            case BD3:
+                for (auto& unit : result) {
+                    if ((*unit.getBirthDate())[2] == stoi(field)) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[12] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+
+            case E:
+                for (auto& unit : result) {
+                    if (toLower((*unit.getEmail())) == field) {
+                        middleResult.push_back(unit);
+                    }
+                }
+                optData[13] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+
+            case PN:
+                for (auto& unit : result) {
+                    for (auto iter = unit.getPhoneNumber()->begin();
+                        iter != unit.getPhoneNumber()->end(); ++iter) {
+                        if ((*iter) == field) {
+                            middleResult.push_back(unit);
+                            continue;
+                        }
+                    }
+                }
+                optData[14] = true;
+                result.clear();
+                result = middleResult;
+                middleResult.clear();
+                break;
+
+            case 16:
+                printBookUnits(result);
+                break;
+
+            case 17:
+                result.clear();
+                result = units;
+                for (auto && iter : optData) {
+                    iter = true;
+                }
+                break;
+
+            case 18:
+                return;
+                //break;
+
+            default:
+                cout << "Нет такой опции!" << endl;
+                break;
+        }
+    }
+}
+
+void readFile(list<BookUnit>& units) {
+    ifstream file("data.txt");
+    if (!file.is_open()) {
+        cout << "Ошибка открытия файла для чтения!" << endl;
+        cout << "Нет такой опции!" << endl;
+        return;
+    }
+
+    units.clear();
+
+    string line;
+    while (getline(file, line)) {
+        if (!line.empty()) {
+            BookUnit unit;
+            unit.fromString(line);
+            units.push_back(unit);
+        }
+    }
+
+    file.close();
+    cout << "Чтение завершено!" << endl;
+
+}
+
+void writeFile(const list<BookUnit>& units) {
+    ofstream file("data.txt");
+    if (!file.is_open()) {
+        cout << "Ошибка открытия файла для записи!" << endl;
+        cout << "Нет такой опции!" << endl;
+        return;
+    }
+
+    for (const auto& unit : units) {
+        file << unit.toString() << endl;
+    }
+
+    file.close();
+    cout << "Запись завершена!" << endl;
 }

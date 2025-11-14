@@ -18,6 +18,7 @@ public:
     void addOrChangeAddress(const vector<string>& newAddress);
     void addOrChangeBirthDate(const vector<int>& newBirthDate);
     void addOrChangeEmail(const string& newEmail);
+    void toFormat(string &phoneNumber); // для приведения в един. форму телефона
     void addPhoneNumber(const string& newPhoneNumber);
     void changePhoneNumber(const string& changePhoneNumber, int pos);
     void sortPhoneNumbers();
@@ -28,11 +29,14 @@ public:
     vector<int>* getBirthDate();
     string* getEmail();
     list<string>* getPhoneNumber();
-    int getPhoneNumberSize();
+    unsigned int getPhoneNumberSize() const;
 
     bool isEmpty() const;
     void printBook() const;
     void createBook(const BookUnit& book);
+
+    string toString() const;
+    void fromString(const string& data);
 };
 
 #endif //CURSEWORK_OOP_SPBPU_BOOKUNIT_H

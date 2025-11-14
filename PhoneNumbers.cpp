@@ -24,6 +24,7 @@ void refactorPhoneNumber(BookUnit& unit) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin >> phoneNumber;
         if (checkPhoneNumber(phoneNumber) || phoneNumber == "-") {
+            unit.toFormat(phoneNumber);
             unit.changePhoneNumber(phoneNumber, pos);
         }
     }else {
@@ -49,6 +50,7 @@ void addAndRefactorPhoneNumber(BookUnit& unit) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin >> number;
             if (checkPhoneNumber(number)) {
+                unit.toFormat(number);
                 unit.addPhoneNumber(number);
             }
             else {

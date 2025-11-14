@@ -11,4 +11,8 @@
 #include <algorithm>
 #include <regex>
 
+#include <fstream>
+#include <sstream>
+
+
 #endif //CURSEWORK_OOP_SPBPU_ALLMODULS_H
