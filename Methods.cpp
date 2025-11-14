@@ -39,11 +39,11 @@ int mainManu(int& opt) {
         cout << "1: Просмотреть телефонный справочник" << endl;
         cout << "2: Создать контакт" << endl;
         cout << "3: Редактировать контакт" << endl;
-        cout << "4: Удалить аккаунт" << endl;
+        cout << "4: Удалить контакт" << endl;
         cout << "5: Сортировать телефонный справочник" << endl;
-        cout << "6: Найти телефонный справочник" << endl;
+        cout << "6: Найти контакт" << endl;
         cout << "7: Чтение из файла телефонного справочника" << endl;
-        cout << "8: Записать телефонный справочник" << endl;
+        cout << "8: Записать телефонный справочник в файл" << endl;
         cout << "9: Выход из программы" << endl;
         cout << "Номер опции: ";
         cin >> opt;
@@ -178,7 +178,7 @@ void createNewBook(list<BookUnit>& units) {
         correctData = checkPhoneNumber(phoneNumber);
         if (!correctData){cout << "Некорректность вводимого телефона! Повторите ввод!" << endl;}
     }
-    newBook.toFormat(phoneNumber);
+    BookUnit::toFormat(phoneNumber); // потому что toFormat статичный метод
     newBook.addPhoneNumber(phoneNumber);
 
     auto iter = units.begin();
@@ -391,10 +391,10 @@ string toLower(const string& str) {
 }
 
 bool isNumber(const string& str) {
-    for (auto character : str) {
-        if (!isdigit(character)) {return false;}
-    }
-    return true;
+    // Clion посоветовал исправить перебор for на all_of
+    return all_of(str.begin(), str.end(), [](unsigned char c) {
+        return isdigit(c);
+    });
 }
 
 void findData(list<BookUnit>& units) {
@@ -632,7 +632,7 @@ void findData(list<BookUnit>& units) {
                 result.clear();
                 result = units;
                 for (auto && iter : optData) {
-                    iter = true;
+                    iter = false;
                 }
                 break;
 

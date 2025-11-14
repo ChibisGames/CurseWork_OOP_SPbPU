@@ -11,7 +11,6 @@ bool checkPhoneNumber(const string& phoneNumber) {
 
 void refactorPhoneNumber(BookUnit& unit) {
     int pos;
-    string phoneNumber;
     unit.printPhoneNumbers();
     cout << "Выберите номер телефона, который хотите изменить: ";
     cin.clear();
@@ -19,12 +18,13 @@ void refactorPhoneNumber(BookUnit& unit) {
     cin >> pos;
     pos--;
     if (0 <= pos && pos < unit.getPhoneNumberSize()) {
+        string phoneNumber;
         cout << "Введите новый телефон: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin >> phoneNumber;
         if (checkPhoneNumber(phoneNumber) || phoneNumber == "-") {
-            unit.toFormat(phoneNumber);
+            BookUnit::toFormat(phoneNumber); // потому что toFormat статичный метод
             unit.changePhoneNumber(phoneNumber, pos);
         }
     }else {
@@ -34,7 +34,6 @@ void refactorPhoneNumber(BookUnit& unit) {
 
 void addAndRefactorPhoneNumber(BookUnit& unit) {
     int opt;
-    int pos;
     string number;
     while (true) {
         cout << "1: Добавить телефонный номер" << endl;
@@ -50,7 +49,7 @@ void addAndRefactorPhoneNumber(BookUnit& unit) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin >> number;
             if (checkPhoneNumber(number)) {
-                unit.toFormat(number);
+                BookUnit::toFormat(number); // потому что toFormat статичный метод
                 unit.addPhoneNumber(number);
             }
             else {

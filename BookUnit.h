@@ -18,7 +18,7 @@ public:
     void addOrChangeAddress(const vector<string>& newAddress);
     void addOrChangeBirthDate(const vector<int>& newBirthDate);
     void addOrChangeEmail(const string& newEmail);
-    void toFormat(string &phoneNumber); // для приведения в един. форму телефона
+    static void toFormat(string &phoneNumber); // для приведения в един. форму телефона
     void addPhoneNumber(const string& newPhoneNumber);
     void changePhoneNumber(const string& changePhoneNumber, int pos);
     void sortPhoneNumbers();
