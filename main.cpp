@@ -1,27 +1,21 @@
-#include "AllModuls.h"
-#include "Methods.h"
+#include <QApplication>
 
-#include<QApplication>
-#include<QLabel>
+#include"mainwindow.h"
+#include "Methods.h"
 
 using namespace std;
 
 
 int main(int argc, char *argv[]) {
-    int opt = 0;
-    // console app
-    //mainManu(opt);
-
-    //Qt app
-    QApplication app(argc, argv);
-    //QLabel *label = new QLabel("Hello World!");
-    QWidget *window = new QWidget;
-    window->setWindowTitle("Phone Book");
-
-    //label->show();
-    window->show();
-    return app.exec();
-    return 0;
-
+    #ifdef USE_GUI // смотерть в .pro
+        QApplication app(argc, argv);
+        MainWindow mainWindow;
+        mainWindow.show();
+        return app.exec();
+    #else
+        int opt = 0;
+        mainMenu(opt);
+        return 0;
+    #endif
 }
 

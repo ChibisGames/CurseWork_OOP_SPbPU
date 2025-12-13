@@ -1,9 +1,3 @@
-#include <QFile>
-#include <QTextStream>
-#include <QMessageBox>
-#include <QDebug>
-
-
 #include "AllModuls.h"
 #include "Methods.h"
 #include "BookUnit.h"
@@ -38,7 +32,7 @@ enum Field {
     PN = 15
 };
 
-int mainManu(int& opt) {
+int mainMenu(int& opt) {
     auto bookUnits = new list<BookUnit>(MAX_UNITS);
     while (true) {
         cout << "Введите номер нужной опции: " << endl;
@@ -691,67 +685,4 @@ void writeFile(const list<BookUnit>& units) {
 
     file.close();
     cout << "Запись завершена!" << endl;
-}
-
-
-
-
-
-
-void qtReadFile(const QString& filename, list<BookUnit>& units) {
-    QFile file(filename);
-
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Ошибка открытия файла для чтения:" << file.errorString();
-        QMessageBox::warning(nullptr, "Ошибка",
-                             "Не удалось открыть файл для чтения:\n" + file.errorString());
-        return;
-    }
-
-    units.clear();
-
-    QTextStream in(&file);
-
-    int lineCount = 0;
-    while (!in.atEnd()) {
-        QString line = in.readLine().trimmed();
-
-        if (!line.isEmpty()) {
-            BookUnit unit;
-            unit.fromString(line.toStdString());
-            units.push_back(unit);
-            lineCount++;
-            PERSON_INDEX++;
-        }
-    }
-
-    file.close();
-
-    qDebug() << "Чтение завершено! Прочитано записей:" << lineCount;
-    return;
-}
-
-// Функция записи в файл
-void qtWrite(const QString& filename, const list<BookUnit>& units) {
-    QFile file(filename);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
-        qWarning() << "Ошибка открытия файла для записи:" << file.errorString();
-        QMessageBox::warning(nullptr, "Ошибка",
-                             "Не удалось открыть файл для записи:\n" + file.errorString());
-        return;
-    }
-
-    QTextStream out(&file);
-
-    int writeCount = 0;
-    for (const auto& unit : units) {
-        QString line = QString::fromStdString(unit.toString());
-        out << line << "\n";
-        writeCount++;
-    }
-
-    file.close();
-
-    qDebug() << "Запись завершена! Записано записей:" << writeCount;
 }

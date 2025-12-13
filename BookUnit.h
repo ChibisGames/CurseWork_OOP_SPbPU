@@ -8,7 +8,6 @@ using namespace std;
 
 class BookUnit {
 private:
-public: /////////////////////frfrfrefeferdededhberjhbfhjebfhjenjhdnjnejkdnjkekfrfbke
     vector<string> fullName = vector<string>(3);
     vector<string> address = vector<string>(7);
     vector<int> birthDate = vector<int>( 3);
