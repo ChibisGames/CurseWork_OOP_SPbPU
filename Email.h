@@ -10,6 +10,8 @@ using namespace std;
 
 bool checkEmail(string& email, BookUnit& unit);
 
+bool checkEmail(string& email, string& bookUnitName);
+
 void deleteExtraSpaceInEmail(string& element);
 
 void refactorEmail(BookUnit& unit);
