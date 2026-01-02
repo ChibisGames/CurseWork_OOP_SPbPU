@@ -3,10 +3,24 @@
 
 using namespace std;
 
-bool checkEmail(string& email) {
+bool checkEmail(string& email, BookUnit& unit) {
+    const regex re(R"(^[A-Za-z0-9]+@[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]$))");
     deleteExtraSpaceInEmail(email);
-    const regex re(R"(^[A-Za-z0-9]+@[A-Za-z0-9]+$)");
-    return regex_match(email, re);
+
+    string e = email;
+    auto pos = e.find('@');
+    e = e.substr(0, pos);
+    transform(e.begin(), e.end(), e.begin(),
+        [](unsigned char c) { return tolower(c); });
+
+
+    string name = (*unit.getFullName())[0];
+    transform(name.begin(), name.end(), name.begin(),
+        [](unsigned char c) { return tolower(c); });
+
+    bool nameInEmail = e.find(name) != string::npos;
+
+    return regex_match(email, re) * nameInEmail;
 }
 
 void deleteExtraSpaceInEmail(string& element) {
@@ -33,10 +47,11 @@ void refactorEmail(BookUnit& unit) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin >> newElement;
-            if (checkEmail(newElement)) {
+            if (checkEmail(newElement, unit)) {
                 (*email) = newElement;
             } else {
                 cout << "Некорректно введенный email!" << endl;
+                cout << "P.s. проверьте наличие имени в email!" << endl;
             }
             break;
         }

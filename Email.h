@@ -8,7 +8,7 @@
 using namespace std;
 
 
-bool checkEmail(string& email);
+bool checkEmail(string& email, BookUnit& unit);
 
 void deleteExtraSpaceInEmail(string& element);
 
