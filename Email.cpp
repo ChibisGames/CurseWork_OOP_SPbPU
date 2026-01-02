@@ -4,7 +4,7 @@
 using namespace std;
 
 bool checkEmail(string& email, BookUnit& unit) {
-    const regex re(R"(^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]$))");
+    const regex re(R"(^[^@\s]+@[^@\s]+\.[^@\s]+$)");
     deleteExtraSpaceInEmail(email);
 
     string e = email;
@@ -24,7 +24,7 @@ bool checkEmail(string& email, BookUnit& unit) {
 }
 
 bool checkEmail(string& email, string& bookUnitName) {
-    const regex re(R"(^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]$))");
+    const regex re(R"(^[^@\s]+@[^@\s]+\.[^@\s]+$)");
     deleteExtraSpaceInEmail(email);
 
     string e = email;
