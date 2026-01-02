@@ -31,6 +31,7 @@ public:
     int getRefactorItemIndex();
     int getRefactorPhoneNumberIndex();
     QString getRefactorLine();
+    QString getNewEmailLine();
 
 
     vector<std::string> getFullName();
@@ -69,6 +70,7 @@ private:
 
     QComboBox *refactorItemCombo;
     QLineEdit *refactorItemLine;
+    QLineEdit *newEmailEdit;
     QSpinBox *refactorPhoneNumberIndex;
 
     QSpinBox *spinBox;

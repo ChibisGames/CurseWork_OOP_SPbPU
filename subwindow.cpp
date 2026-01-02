@@ -204,6 +204,12 @@ void SubWindow::setupRefactorWindow(){
         newItem->addWidget(refactorItemLine);
         mainLayout->addLayout(newItem);
 
+        auto newEmail = new QHBoxLayout();
+        newEmail->addWidget(new QLabel("Новый email (только при изменении имени!):", this));
+        newEmailEdit = new QLineEdit(this);
+        newEmail->addWidget(newEmailEdit);
+        mainLayout->addLayout(newEmail);
+
         auto phoneIndex = new QHBoxLayout(); // Нет сил делать через ?ивенты?
         phoneIndex->addWidget(new QLabel("Номер телефона в списке (если изменяете его):", this));
         refactorPhoneNumberIndex = new QSpinBox(this);
@@ -266,15 +272,16 @@ void SubWindow::setupDeleteWindow() {
 
 bool SubWindow::doAccept(){
     bool flag = true;
+    auto name = nameEdit->text().toStdString();
     auto email = emailEdit->text().toStdString();
 
-    flag *= checkNameElement(nameEdit->text().toStdString());
+    flag *= checkNameElement(name);
     flag *= checkNameElement(surnameEdit->text().toStdString());
     flag *= checkNameElement(patronymicEdit->text().toStdString());
 
     flag *= checkBirthDate(getDateEdit()); // Должно всегда проходить (так задаётся календарём)
 
-    flag *= checkEmail(email);
+    flag *= checkEmail(email, name);
     flag *= checkPhoneNumber(phoneNumberEdit->text().toStdString());
 
 
@@ -289,8 +296,12 @@ bool SubWindow::doRefactor() {
     advance(it, spinBox->value() - 1);
     auto newBirthDate = it->getBirthDate();
 
+    auto name = newEmailEdit->text().toStdString(); // Для измнении имени + почты
+
     if (newIndex == 0) return checkPhoneNumber(newItem);
-    if (1 <= newIndex && newIndex <= 3) return checkNameElement(newItem);
+    if (newIndex == 1)
+        return checkNameElement(newItem) && checkEmail(name, newItem);
+    if (2 <= newIndex && newIndex <= 3) return checkNameElement(newItem);
     if (4 <= newIndex && newIndex <= 10) return true;
 
     if (newIndex == 11){
@@ -305,7 +316,7 @@ bool SubWindow::doRefactor() {
         (*newBirthDate)[2] = refactorItemLine->text().toInt();
         return checkBirthDate(*newBirthDate);
     }
-    if (newIndex == 14) return checkEmail(newItem);
+    if (newIndex == 14) return checkEmail(newItem, *it);
     if (newIndex == 15){
         auto phoneNumberIndex = refactorPhoneNumberIndex->value();
         return ((newItem == "-") || checkPhoneNumber(newItem)) * \
@@ -373,6 +384,10 @@ int SubWindow::getRefactorItemIndex(){
 
 QString SubWindow::getRefactorLine(){
     return refactorItemLine->text();
+}
+
+QString SubWindow::getNewEmailLine(){
+    return newEmailEdit->text();
 }
 
 

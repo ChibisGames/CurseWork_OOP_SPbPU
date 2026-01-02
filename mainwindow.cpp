@@ -209,6 +209,7 @@ void MainWindow::refactorBook() {
             iter->addPhoneNumber(phoneNumber);
         }else if (refactorItemIndex == 1){
             (*(iter->getFullName()))[0] = subWindow->getRefactorLine().toStdString();
+            *(iter->getEmail()) = subWindow->getNewEmailLine().toStdString();
         }else if (refactorItemIndex == 2){
             (*(iter->getFullName()))[1] = subWindow->getRefactorLine().toStdString();
         }else if (refactorItemIndex == 3){
