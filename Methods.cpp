@@ -162,7 +162,7 @@ void createNewBook(list<BookUnit>& units) {
         cout << "=== Ввод email ===" << endl;
         cout << "Введите email: ";
         cin >> email;
-        correctData = checkEmail(email);
+        correctData = checkEmail(email, newBook);
         if (!correctData){cout << "Некорректность вводимого email! Повторите ввод!" << endl;}
     }
     newBook.addOrChangeEmail(email);
@@ -663,6 +663,7 @@ void readFile(list<BookUnit>& units) {
             BookUnit unit;
             unit.fromString(line);
             units.push_back(unit);
+            PERSON_INDEX++;
         }
     }
 

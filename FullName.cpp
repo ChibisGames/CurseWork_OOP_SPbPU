@@ -1,6 +1,7 @@
 #include "AllModuls.h"
 #include "FullName.h"
 #include "BookUnit.h"
+#include "Email.h"
 
 using namespace std;
 
@@ -49,6 +50,8 @@ void refactorFullName(BookUnit& unit) {
     int opt = 0;
     auto fullName = unit.getFullName();
     string newElement;
+    auto email = unit.getEmail();
+    auto e = *email;
     while (opt != 4) {
         cout << "1: Изменить имя" << endl;
         cout << "2: Изменить фамилию" << endl;
@@ -69,6 +72,15 @@ void refactorFullName(BookUnit& unit) {
                 } else {
                     cout << "Некорректно введено имя!" << endl;
                 }
+
+                while (!checkEmail(e, unit)) {
+                    cout << "Новый email должен содержать имя пользователя!" << endl;
+                    cout << "Новый email: ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cin >> e;
+                }
+                (*email) = e;
                 break;
             case 2:
                 cout << "Новая фамилия: ";
