@@ -6,9 +6,7 @@
 
 Database::Database(list<BookUnit> *bookUnits, QObject *parent) : QObject(parent), bookUnits(bookUnits){
     if (!createConnection()){
-        qDebug("Error open database");
-    }else{
-        qDebug("Succes open database");
+        qDebug("Error init database");
     }
 
 }
@@ -33,6 +31,12 @@ bool Database::createConnection(const QString& host,
     db->setUserName(user);
     db->setPassword(password);
     db->setPort(port);
+
+    if (!db->open()) {
+        qDebug() << "Failed to open database:" << db->lastError().text();
+        return false;
+    }
+    qDebug() << "Database opened successfully";
     return createTable();
 }
 
@@ -53,20 +57,18 @@ bool Database::isConnected() const
 
 bool Database::createTable()
 {
-    QString sql =
-        "CREATE TABLE IF NOT EXISTS bookUnits ("
-        "id SERIAL PRIMARY KEY,"
-        "first_name TEXT,"
-        "middle_name TEXT,"
-        "last_name TEXT,"
-        "addr1 TEXT, addr2 TEXT, addr3 TEXT, addr4 TEXT, addr5 TEXT, addr6 TEXT, addr7 TEXT,"
-        "birth_year INTEGER, birth_month INTEGER, birth_day INTEGER,"
-        "email TEXT,"
-        "phones TEXT"
-        ")";
-
     QSqlQuery query(*db);
-    return query.exec(sql);
+
+    return query.exec("CREATE TABLE IF NOT EXISTS bookUnits ("
+                              "id SERIAL PRIMARY KEY,"
+                              "first_name TEXT,"
+                              "middle_name TEXT,"
+                              "last_name TEXT,"
+                              "addr1 TEXT, addr2 TEXT, addr3 TEXT, addr4 TEXT, addr5 TEXT, addr6 TEXT, addr7 TEXT,"
+                              "birth_year INTEGER, birth_month INTEGER, birth_day INTEGER,"
+                              "email TEXT,"
+                              "phones TEXT)");
+    qDebug("Table created!");
 }
 
 void Database::saveBookUnits()
@@ -130,11 +132,12 @@ void Database::saveBookUnits()
             qDebug() << "Save error:" << query.lastError().text();
         }
     }
+    qDebug("DATA SAVED");
 }
 
 int Database::loadBookUnits()
 {
-    if (isConnected()) {
+    if (!isConnected()) {
         qDebug() << "Database not connected";
         return -1;
     }

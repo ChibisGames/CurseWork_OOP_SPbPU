@@ -18,7 +18,7 @@ public:
 
 private:
     bool createConnection(const QString& host = "localhost",
-                          const QString& dbName = "bookUnits_db",
+                          const QString& dbName = "postgres",
                           const QString& user = "postgres",
                           const QString& password = "Ch1b1s3116)",
                           int port = 5432);
@@ -29,7 +29,7 @@ private:
 
 
 
-    QSqlDatabase *db;
+    QSqlDatabase *db = nullptr;
     list<BookUnit> *bookUnits;
 
 };

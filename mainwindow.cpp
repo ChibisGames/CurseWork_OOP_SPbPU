@@ -14,6 +14,7 @@
 
 #include "BookUnit.h"
 #include "subwindow.h"
+#include "database.h"
 
 // настройка главного окна
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -296,7 +297,9 @@ void MainWindow::loadData(){
     findBlock->clearSortStatus(); // Обнуляем статус сортировки
 
     // загрузжаем данный из файла (qt компилирует в build/*Kits*/, поэтому идём туда)
-    qtReadFile(FILENAME);
+    //qtReadFile(FILENAME);
+    Database db(bookUnits, this);
+    personIndex = db.loadBookUnits();
 
     updateTable();
 
@@ -317,11 +320,16 @@ void MainWindow::saveData(){
         return;
     }
 
+    /*
     // Не забываем выйти в корневую папку проекта
     QString filename = QFileDialog::getSaveFileName(this,
                                                     "Сохранить файл", FILENAME, "Text files (*.txt)");
 
     qtWrite(filename);
+    */
+    Database db(bookUnits, this);
+    db.saveBookUnits();
+
 
     //qWarning() << QString("Сохранено %1 записей").arg(personIndex);
 
