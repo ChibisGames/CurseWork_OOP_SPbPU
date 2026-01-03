@@ -1,5 +1,5 @@
 # Подключаем необходимые модули Qt (по крутому - в столбик)
-QT += core gui widgets
+QT += core gui widgets sql
 
 TARGET = CurseWork_OOP_SPbPU
 TEMPLATE = app
@@ -23,6 +23,7 @@ DISTFILES += data.txt
 
 # Файлы проекта
 SOURCES += \
+    database.cpp \
     findwidget.cpp \
     main.cpp \
     BookUnit.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     BirthDate.h \
     Address.h \
     PhoneNumbers.h \
+    database.h \
     findwidget.h \
     mainwindow.h \
     subwindow.h
