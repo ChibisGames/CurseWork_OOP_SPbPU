@@ -18,7 +18,7 @@
 // настройка главного окна
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    bookUnits = new list<BookUnit>(MAX_UNITS); // создаём массив клиентов
+    bookUnits = new list<BookUnit>(); // создаём массив клиентов
     //(*bookUnits).resize(MAX_UNITS); // Эта строчка чуть не заруинило всю курсовую
     setupMainWindow(); // запускаем поднастройку главного окна
     setWindowTitle("Телефонный справочник"); // название главного окна
