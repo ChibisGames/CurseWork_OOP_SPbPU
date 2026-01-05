@@ -285,7 +285,7 @@ void MainWindow::loadData(){
     // Точно читать данные?
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Подтверждение",
-                                  "Вы уверены, что хотите загрузить данные из файла??",
+                                  "Вы уверены, что хотите загрузить данные??",
                                   QMessageBox::Yes | QMessageBox::No);
     if (reply != QMessageBox::Yes) {
         return;
@@ -314,7 +314,7 @@ void MainWindow::saveData(){
     // Точно соxранять данные?
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Подтверждение",
-                                  "Вы уверены, что хотите сохранить данные в файл?",
+                                  "Вы уверены, что хотите сохранить данные?",
                                   QMessageBox::Yes | QMessageBox::No);
     if (reply != QMessageBox::Yes) {
         return;
