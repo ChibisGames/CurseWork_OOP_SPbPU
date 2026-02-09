@@ -32,8 +32,8 @@ enum Field {
     PN = 15
 };
 
-int mainMenu(int& opt) {
-    auto bookUnits = new list<BookUnit>(MAX_UNITS);
+int mainManu(int& opt) {
+    auto bookUnits = new list<BookUnit>();
     while (true) {
         cout << "Введите номер нужной опции: " << endl;
         cout << "1: Просмотреть телефонный справочник" << endl;
@@ -181,9 +181,10 @@ void createNewBook(list<BookUnit>& units) {
     BookUnit::toFormat(phoneNumber); // потому что toFormat статичный метод
     newBook.addPhoneNumber(phoneNumber);
 
-    auto iter = units.begin();
-    advance(iter, PERSON_INDEX);
-    iter->createBook(newBook);
+    //auto iter = units.begin();
+    //advance(iter, PERSON_INDEX);
+    //iter->createBook(newBook);
+    units.push_back(newBook);
 
     PERSON_INDEX++;
 }
