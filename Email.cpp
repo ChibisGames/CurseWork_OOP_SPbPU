@@ -11,12 +11,12 @@ bool checkEmail(string& email, BookUnit& unit) {
     auto pos = e.find('@');
     e = e.substr(0, pos);
     transform(e.begin(), e.end(), e.begin(),
-        [](unsigned char c) { return tolower(c); });
+              [](unsigned char c) { return tolower(c); });
 
 
     string name = (*unit.getFullName())[0];
     transform(name.begin(), name.end(), name.begin(),
-        [](unsigned char c) { return tolower(c); });
+              [](unsigned char c) { return tolower(c); });
 
     bool nameInEmail = e.find(name) != string::npos;
 
