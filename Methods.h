@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int mainManu(int& opt);
+int mainMenu(int& opt);
 
 void printBookUnits(const list<BookUnit>& units);
 
